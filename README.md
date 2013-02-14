@@ -28,3 +28,4 @@ Notes:
 --------------------------------------------------------------------------------
 1. Since the form template is parsed by PHx, dropdown select boxes with Ditto are possible now. But be careful: those generated form elements could cause 'Incorrect value' if the elements are different before and after form post.
 2. Since the form template is parsed by PHx, all placeholder are replaced in the chunk. If you really need to use a placeholder in this chunk – this is i.e. not nessesary for form field values – the tag should be changed from [+placeholder+] to ((placeholder)).
+3. All snippet calls have to be called cached inside the chunks. Otherwise they are worked after the eForm call (tpl and thankyou chunk) or never (report and automessage chunk).
