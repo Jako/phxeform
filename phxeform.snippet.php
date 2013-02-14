@@ -37,7 +37,7 @@ if (!function_exists('phxBeforeFormParse')) {
 		$modx->eformTemplates = $templates;
 		$phxOutput = new evoChunkie('@CODE' . $templates['tpl']);
 		$phxOutput->CreateVars($fields);
-		$templates['tpl'] = $phxOutput->Render();
+		$templates['tpl'] = str_replace(array('((','))'), array('[+','+]'), $phxOutput->Render());
 		$templates['report'] = '[+reportOutput+]';
 		$templates['thankyou'] = '[+thankyouOutput+]';
 		$templates['autotext'] = '[+autotextOutput+]';

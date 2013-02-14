@@ -26,4 +26,5 @@ Basic eForm call with phxeform:
 
 Notes:
 --------------------------------------------------------------------------------
-1. Since the form template is parsed by PHx, dropdown select boxes with Ditto are possible now. But be careful: those generated form elements could cause 'Incorrect value' error if the elements are different before and after form post.
+1. Since the form template is parsed by PHx, dropdown select boxes with Ditto are possible now. But be careful: those generated form elements could cause 'Incorrect value' if the elements are different before and after form post.
+2. Since the form template is parsed by PHx, all placeholder are replaced in the chunk. If you really need to use a placeholder in this chunk – this is i.e. not nessesary for form field values – the tag should be changed from [+placeholder+] to ((placeholder)).
