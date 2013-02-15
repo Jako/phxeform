@@ -13,20 +13,25 @@ if (!class_exists('evoChunkie')) {
 	class evoChunkie {
 
 		private $template;
-		private $templates;
 		private $phx;
 		private $phxreq;
 		private $phxerror;
 		private $check;
 
 		public function evoChunkie($template = '', $templates = array()) {
+			global $modx;
+
 			if (!class_exists("PHxParser")) {
 				include_once(strtr(realpath(dirname(__FILE__)) . "/phx.parser.class.inc.php", '\\', '/'));
 			}
-			$this->templates = &$templates;
+			if (!isset($modx->evoChunkieCache)) {
+				$modx->evoChunkieCache = $templates;
+			} elseif (count($templates)) {
+				$modx->evoChunkieCache = array_merge($modx->evoChunkieCache, $templates);
+			}
 			$this->template = $this->getTemplate($template);
 			$this->phx = new PHxParser();
-			$this->phxreq = "1.4.4";
+			$this->phxreq = "2.0.0";
 			$this->phxerror = '<div style="border: 1px solid red;font-weight: bold;margin: 10px;padding: 5px;">';
 			$this->phxerror .= 'Error! This MODx installation is running an older version of the PHx plugin.<br /><br />';
 			$this->phxerror .= 'Please update PHx to version ' . $this->phxreq . ' or higher.<br />OR - Disable the PHx plugin in the MODx Manager. (Manage Resources -> Plugins)';
@@ -63,8 +68,8 @@ if (!class_exists('evoChunkie')) {
 			// by Mark Kaplan
 			global $modx;
 			$template = "";
-			if (isset($this->templates[$tpl])) {
-				$template = $this->templates[$tpl];
+			if (isset($modx->evoChunkieCache[$tpl])) {
+				$template = $modx->evoChunkieCache[$tpl];
 			} else {
 				if ($modx->getChunk($tpl) != "") {
 					$template = $modx->getChunk($tpl);
@@ -79,7 +84,7 @@ if (!class_exists('evoChunkie')) {
 				} else {
 					$template = FALSE;
 				}
-				$this->templates[$tpl] = $template;
+				$modx->evoChunkieCache[$tpl] = $template;
 			}
 			$this->template = $template;
 			return $template;
