@@ -2,7 +2,7 @@
 /**
  * phxeform
  *
- * eForm event functions to allow PHx modifiers and snippet calls in eForm chunks for MODX Evolution
+ * eForm event functions to allow PHx modifiers and snippet calls in eForm chunks
  *
  * @category	snippet
  * @version 	1.0.1
