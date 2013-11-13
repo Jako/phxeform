@@ -23,7 +23,7 @@
  *
  * @author      Thomas Jakobi (thomas.jakobi@partout.info)
  * @copyright   Copyright 2013, Thomas Jakobi
- * @version     1.0.1
+ * @version     1.0.2
  */
 if (!class_exists('evoChunkie')) {
 	include_once (MODX_BASE_PATH . 'assets/snippets/phxeform/includes/chunkie/chunkie.class.inc.php');
@@ -34,13 +34,21 @@ if (!function_exists('phxBeforeFormParse')) {
 	function phxBeforeFormParse(&$fields, &$templates) {
 		global $modx;
 
-		$modx->eformTemplates = $templates;
+		if ($modx->eformTemplates) {
+			$modx->eformTemplates = array_merge($modx->eformTemplates, $templates);
+		} else {
+			$modx->eformTemplates = $templates;
+		}
 		$phxOutput = new evoChunkie('@CODE' . $templates['tpl']);
 		$phxOutput->CreateVars($fields);
 		$templates['tpl'] = preg_replace('/(\(\()((?!yams).*?)(\)\))/s', '[+$2+]', $phxOutput->Render());
 		$templates['report'] = '[+reportOutput+]';
-		$templates['thankyou'] = '[+thankyouOutput+]';
-		$templates['autotext'] = '[+autotextOutput+]';
+		if ($templates['thankyou']) {
+			$templates['thankyou'] = '[+thankyouOutput+]';
+		}
+		if ($templates['autotext']) {
+			$templates['autotext'] = '[+autotextOutput+]';
+		}
 	}
 
 	function phxBeforeMailSent(&$fields) {
@@ -50,13 +58,17 @@ if (!function_exists('phxBeforeFormParse')) {
 		$phxOutput->CreateVars($fields);
 		$fields['reportOutput'] = $phxOutput->Render();
 
-		$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['thankyou']);
-		$phxOutput->CreateVars($fields);
-		$fields['thankyouOutput'] = $phxOutput->Render();
+		if ($modx->eformTemplates['thankyou'] == '[+thankyouOutput+]') {
+			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['thankyou']);
+			$phxOutput->CreateVars($fields);
+			$fields['thankyouOutput'] = $phxOutput->Render();
+		}
 
-		$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['autotext']);
-		$phxOutput->CreateVars($fields);
-		$fields['autotextOutput'] = $phxOutput->Render();
+		if ($modx->eformTemplates['autotext'] == '[+autotextOutput+]') {
+			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['autotext']);
+			$phxOutput->CreateVars($fields);
+			$fields['autotextOutput'] = $phxOutput->Render();
+		}
 	}
 
 }
