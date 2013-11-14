@@ -25,7 +25,6 @@
  * @copyright   Copyright 2013, Thomas Jakobi
  * @version     1.0.3
  */
-
 define('PXE_PATH', str_replace(MODX_BASE_PATH, '', str_replace('\\', '/', realpath(dirname(__FILE__)))) . '/');
 define('PXE_BASE_PATH', MODX_BASE_PATH . PXE_PATH);
 
@@ -61,9 +60,9 @@ if (!function_exists('phxBeforeFormParse')) {
 		$placeholder = array();
 		foreach ($fields as $key => $value) {
 			if (is_array($value)) {
-				$placeholder['key'] = implode(', ', $value);
+				$placeholder[$key] = implode(', ', $value);
 			} else {
-				$placeholder['key'] =  $value;
+				$placeholder[$key] = $value;
 			}
 		}
 
@@ -71,13 +70,13 @@ if (!function_exists('phxBeforeFormParse')) {
 		$phxOutput->CreateVars($placeholder);
 		$fields['reportOutput'] = $phxOutput->Render();
 
-		if ($modx->eformTemplates['thankyou'] == '[+thankyouOutput+]') {
+		if ($modx->eformTemplates['thankyou']) {
 			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['thankyou']);
 			$phxOutput->CreateVars($placeholder);
 			$fields['thankyouOutput'] = $phxOutput->Render();
 		}
 
-		if ($modx->eformTemplates['autotext'] == '[+autotextOutput+]') {
+		if ($modx->eformTemplates['autotext']) {
 			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['autotext']);
 			$phxOutput->CreateVars($placeholder);
 			$fields['autotextOutput'] = $phxOutput->Render();
