@@ -53,7 +53,6 @@ if (!function_exists('phxBeforeFormParse')) {
 		if ($templates['autotext']) {
 			$templates['autotext'] = '[+autotextOutput+]';
 		}
-		die('<pre>'.print_r($modx->eformTemplates, true));
 	}
 
 	function phxBeforeMailSent(&$fields) {
