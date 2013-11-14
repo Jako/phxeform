@@ -67,18 +67,18 @@ if (!function_exists('phxBeforeFormParse')) {
 			}
 		}
 
-		$phxOutput = new evoChunkie($modx->eformTemplates['report']);
+		$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['report']);
 		$phxOutput->CreateVars($placeholder);
 		$fields['reportOutput'] = $phxOutput->Render();
 
 		if ($modx->eformTemplates['thankyou'] == '[+thankyouOutput+]') {
-			$phxOutput = new evoChunkie($modx->eformTemplates['thankyou']);
+			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['thankyou']);
 			$phxOutput->CreateVars($placeholder);
 			$fields['thankyouOutput'] = $phxOutput->Render();
 		}
 
 		if ($modx->eformTemplates['autotext'] == '[+autotextOutput+]') {
-			$phxOutput = new evoChunkie($modx->eformTemplates['autotext']);
+			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['autotext']);
 			$phxOutput->CreateVars($placeholder);
 			$fields['autotextOutput'] = $phxOutput->Render();
 		}
