@@ -23,7 +23,7 @@
  *
  * @author      Thomas Jakobi (thomas.jakobi@partout.info)
  * @copyright   Copyright 2013, Thomas Jakobi
- * @version     1.0.2
+ * @version     1.0.3
  */
 if (!class_exists('evoChunkie')) {
 	include_once (MODX_BASE_PATH . 'assets/snippets/phxeform/includes/chunkie/chunkie.class.inc.php');
@@ -54,19 +54,28 @@ if (!function_exists('phxBeforeFormParse')) {
 	function phxBeforeMailSent(&$fields) {
 		global $modx;
 
+		$placeholder = array();
+		foreach ($fields as $key => $value) {
+			if (is_array($value)) {
+				$placeholder['key'] = implode(', ', $value);
+			} else {
+				$placeholder['key'] =  $value;
+			}
+		}
+
 		$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['report']);
-		$phxOutput->CreateVars($fields);
+		$phxOutput->CreateVars($placeholder);
 		$fields['reportOutput'] = $phxOutput->Render();
 
 		if ($modx->eformTemplates['thankyou'] == '[+thankyouOutput+]') {
 			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['thankyou']);
-			$phxOutput->CreateVars($fields);
+			$phxOutput->CreateVars($placeholder);
 			$fields['thankyouOutput'] = $phxOutput->Render();
 		}
 
 		if ($modx->eformTemplates['autotext'] == '[+autotextOutput+]') {
 			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['autotext']);
-			$phxOutput->CreateVars($fields);
+			$phxOutput->CreateVars($placeholder);
 			$fields['autotextOutput'] = $phxOutput->Render();
 		}
 	}
