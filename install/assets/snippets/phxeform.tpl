@@ -5,7 +5,7 @@
  * eForm event functions to allow PHx modifiers and snippet calls in eForm chunks
  *
  * @category	snippet
- * @version 	1.0.1
+ * @version 	1.0.3
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako
  * @internal    @properties

@@ -25,8 +25,12 @@
  * @copyright   Copyright 2013, Thomas Jakobi
  * @version     1.0.3
  */
+
+define('PXE_PATH', str_replace(MODX_BASE_PATH, '', str_replace('\\', '/', realpath(dirname(__FILE__)))) . '/');
+define('PXE_BASE_PATH', MODX_BASE_PATH . PXE_PATH);
+
 if (!class_exists('evoChunkie')) {
-	include_once (MODX_BASE_PATH . 'assets/snippets/phxeform/includes/chunkie/chunkie.class.inc.php');
+	include_once (PXE_BASE_PATH . 'includes/chunkie/chunkie.class.inc.php');
 }
 
 if (!function_exists('phxBeforeFormParse')) {
@@ -49,6 +53,7 @@ if (!function_exists('phxBeforeFormParse')) {
 		if ($templates['autotext']) {
 			$templates['autotext'] = '[+autotextOutput+]';
 		}
+		die('<pre>'.print_r($modx->eformTemplates, true));
 	}
 
 	function phxBeforeMailSent(&$fields) {
@@ -63,18 +68,18 @@ if (!function_exists('phxBeforeFormParse')) {
 			}
 		}
 
-		$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['report']);
+		$phxOutput = new evoChunkie($modx->eformTemplates['report']);
 		$phxOutput->CreateVars($placeholder);
 		$fields['reportOutput'] = $phxOutput->Render();
 
 		if ($modx->eformTemplates['thankyou'] == '[+thankyouOutput+]') {
-			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['thankyou']);
+			$phxOutput = new evoChunkie($modx->eformTemplates['thankyou']);
 			$phxOutput->CreateVars($placeholder);
 			$fields['thankyouOutput'] = $phxOutput->Render();
 		}
 
 		if ($modx->eformTemplates['autotext'] == '[+autotextOutput+]') {
-			$phxOutput = new evoChunkie('@CODE' . $modx->eformTemplates['autotext']);
+			$phxOutput = new evoChunkie($modx->eformTemplates['autotext']);
 			$phxOutput->CreateVars($placeholder);
 			$fields['autotextOutput'] = $phxOutput->Render();
 		}

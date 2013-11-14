@@ -9,3 +9,4 @@ History
 	- Bugfix for empty eForm thankyou and autotext parameters
 - 1.0.3 November 14, 2013
 	- Fields with an array value are transformed into a comma separated list
+	- Bugfix
